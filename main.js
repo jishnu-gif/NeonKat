@@ -129,7 +129,7 @@ ipcMain.handle('pick-folder', async () => {
     const allFiles = await fs.readdir(folderPath);
     const audioFiles = allFiles.filter(file => {
       const ext = path.extname(file).toLowerCase();
-      return ['.mp3', '.wav', '.ogg', '.m4a', '.flac'].includes(ext);
+      return ['.mp3', '.wav', '.ogg', '.m4a', '.flac','.opus'].includes(ext);
     });
 
     const audioFilePaths = audioFiles.map(file => path.join(folderPath, file));
@@ -228,12 +228,15 @@ function createMiniPlayerWindow() {
     height: 120,
     frame: false,
     alwaysOnTop: true,
-    transparent: false,
+    transparent: true,
+    skipTaskbar: true,
+    
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       enableRemoteModule: false,
-      nodeIntegration: false
+      nodeIntegration: false,
+      backgroundThrottling: false
     },
     icon: path.join(__dirname, 'build', 'icon.png')
   });

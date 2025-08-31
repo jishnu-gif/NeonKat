@@ -28,7 +28,6 @@
       background: #111;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(151, 132, 132, 0.5);
     }
     h1 {
       font-size: 24px;
@@ -600,7 +599,7 @@ label img {
     event.preventDefault();
     playlistElem.style.border = '';
     const files = Array.from(event.dataTransfer.files);
-    const audioExts = ['.mp3', '.wav', '.ogg', '.m4a', '.flac'];
+    const audioExts = ['.mp3', '.wav', '.ogg', '.m4a', '.flac','.opus'];
 
     const droppedAudioFiles = files.filter(file => {
       const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
@@ -769,7 +768,7 @@ label img {
   async function getAlbumArtUrl(filePath) {
     const defaultImage = 'build/default-artwork.jpg';
 
-    if (!['.mp3', '.m4a', '.flac'].some(ext => filePath.toLowerCase().endsWith(ext))) {
+    if (!['.mp3', '.m4a', '.flac', '.opus'].some(ext => filePath.toLowerCase().endsWith(ext))) {
       return defaultImage;
     }
 

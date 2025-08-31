@@ -4,33 +4,57 @@
   <meta charset="UTF-8">
   <title>Miniplayer</title>
   <style>
-    body {
-      background: #111;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
+    body { 
+      margin: 0; 
+      padding: 0; 
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+    }
+
+    #wrapper {
+      width: 420px;
+      height: 120px;
+      border-radius: 20px;
       overflow: hidden;
-      -webkit-app-region: drag;
-      user-select: none;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      background: rgba(17,17,17,0.95);
     }
-    #container {
-      display: flex;
-      height: 120px;
-      width: 600px;
-      background: #111;
-      border-radius: 8px;
-    }
-    #artwork {
-      width: 120px;
-      height: 120px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      border-radius: 8px 0 0 8px;
-    }
+
+   #container {
+  display: flex;
+  color: white;
+  height: 120px;
+  width: 100%;
+  background: rgb(22 22 22);
+  border-radius: 20px;
+  overflow: hidden; 
+  -webkit-app-region: drag; 
+      font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+#artwork {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  border-radius: 20px 0 0 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#artwork-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  
+  display: block;
+}
+
+
     #artwork::before {
       content: '';
       position: absolute;
@@ -40,17 +64,20 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.5); 
       z-index: 1; 
-      border-radius: 8px 0 0 8px;
+      border-radius: 20px 0 0 20px; 
     }
+
     #visualizer {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 100%;  
       height: 100%;
       background: transparent;
       z-index: 2;
+      pointer-events: none;
     }
+
     #info-controls {
       flex: 1;
       padding: 10px;
@@ -58,22 +85,22 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    #songName {
-      font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: calc(100% - 50px);
-      padding-right: 30px;
-      position: relative;
-      z-index: 1;
-    }
+
+  #songName {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
     #controls {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
     }
+
     .control-btn {
       background: none;
       border: none;
@@ -104,6 +131,7 @@
       margin-bottom: 5px;
       justify-content: flex-start;
     }
+
     #volume {
       -webkit-appearance: none;
       appearance: none;
@@ -116,6 +144,7 @@
       cursor: pointer;
       --slider-thumb-color: #a88cff;
     }
+
     #volume::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -125,6 +154,7 @@
       border-radius: 50%;
       cursor: pointer;
     }
+
     #volume::-moz-range-thumb {
       width: 12px;
       height: 12px;
@@ -133,63 +163,79 @@
       cursor: pointer;
     }
 
-   #seek-control {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  -webkit-app-region: no-drag;
-  margin-bottom: 5px;
-}
+    #seek-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      -webkit-app-region: no-drag;
+      margin-bottom: 5px;
+    }
 
-#seekBar {
-  -webkit-appearance: none;
-  appearance: none;
-  flex: 1;
-  max-width: 150px;
-  height: 5px;
-  background: #444;
-  border-radius: 5px;
-  cursor: pointer;
-  --slider-thumb-color: #a88cff;
-}
+    #seekBar {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      max-width: 150px;
+      height: 5px;
+      background: #444;
+      border-radius: 5px;
+      cursor: pointer;
+      --slider-thumb-color: #a88cff;
+    }
 
-#seekBar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  background: var(--slider-thumb-color);
-  border-radius: 50%;
-  cursor: pointer;
-}
+    #seekBar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--slider-thumb-color);
+      border-radius: 50%;
+      cursor: pointer;
+    }
 
-#seekBar::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  background: var(--slider-thumb-color);
-  border-radius: 50%;
-  cursor: pointer;
+    #seekBar::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--slider-thumb-color);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    label img {
+      filter: brightness(0) invert(1);
+      top: 7px;
+      position: relative;
+    }
+
+    #bottomRightText {
+  position: absolute;
+  bottom: 5px;   
+  right: 10px; 
+  font-size: 8px;
+  font-weight: bold;
+  color: #ffffff;  
+  pointer-events: none;
 }
 
   </style>
 </head>
 <body>
   <div id="container">
-    <div id="artwork">
-      <canvas id="visualizer"></canvas>
-      <img id="artwork-img" style="display: none;" alt="Hidden artwork loader">
-    </div>
+   <div id="artwork">
+  <img id="artwork-img" src="default-artwork.jpg" alt="Artwork">
+  <canvas id="visualizer"></canvas>
+</div>
     <div id="info-controls">
       <div id="songName">No Track</div>
       <div id="seek-control">
-      <input type="range" id="seekBar" min="0" max="100" value="0" step="0.1">
-      <span id="timeDisplay">0:00 / 0:00</span>
+        <input type="range" id="seekBar" min="0" max="100" value="0" step="0.1">
+        <span id="timeDisplay">0:00 / 0:00</span>
       </div>
       <div id="volume-control">
         <label for="volume">
-        <img src="volume.svg" alt="Volume" width="20" height="20" > 
-        <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
-        <span id="volumePercent">100%</span>
+          <img src="volume.svg" alt="Volume" width="20" height="20" > 
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
+          <span id="volumePercent">100%</span>
       </div>
       <div id="controls">
         <button id="prevBtn" class="control-btn">
@@ -201,19 +247,13 @@
         <button id="nextBtn" class="control-btn">
           <img src="skipRight.svg" alt="Next" class="icon" />
         </button>
+        <div id="bottomRightText">Muzik Electro</div>
       </div>
     </div>
   </div>
-<style>
-label img {
-  filter: brightness(0) invert(1);
-  top: 7px;
-  position: relative;
-}
 
-</style>
   <script>
-  let rainbowHue = 0;
+    let rainbowHue = 0;
 
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
@@ -287,16 +327,23 @@ label img {
       }
     });
 
-    window.electronAPI.onUpdateTheme((data) => {
-      themeColor = data.color;
-      isRainbowActive = data.isRainbow;
-      if (isRainbowActive) {
-        startRainbowColorLoop();
-      } else {
-        stopRainbowColorLoop();
-      }
-      updateSliderBackground(volumeSlider);
-    });
+window.electronAPI.onUpdateTheme((data) => {
+  themeColor = data.color;
+  isRainbowActive = data.isRainbow;
+
+  document.getElementById('artwork').style.setProperty(
+    '--artwork-tint',
+    themeColor + '66' 
+  );
+
+  if (isRainbowActive) {
+    startRainbowColorLoop();
+  } else {
+    stopRainbowColorLoop();
+  }
+
+  updateSliderBackground(volumeSlider);
+});
 
     function drawVisualizer(dataArray) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -347,58 +394,54 @@ label img {
       console.log('Volume slider mousedown');
     });
 
-
     function formatTime(seconds) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s < 10 ? '0' : ''}${s}`;
-}
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
 
-function updateSeekBarBackground() {
-  const value = (seekBar.value - seekBar.min) / (seekBar.max - seekBar.min) * 100;
-  seekBar.style.background = `linear-gradient(to right, ${themeColor} 0%, ${themeColor} ${value}%, #444 ${value}%, #444 100%)`;
-  seekBar.style.setProperty('--slider-thumb-color', themeColor);
-}
+    function updateSeekBarBackground() {
+      const value = (seekBar.value - seekBar.min) / (seekBar.max - seekBar.min) * 100;
+      seekBar.style.background = `linear-gradient(to right, ${themeColor} 0%, ${themeColor} ${value}%, #444 ${value}%, #444 100%)`;
+      seekBar.style.setProperty('--slider-thumb-color', themeColor);
+    }
 
-window.electronAPI.onUpdateTime((currentTime, duration) => {
-  seekBar.max = duration;
-  seekBar.value = currentTime;
-  updateSeekBarBackground();
-  timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-});
+    window.electronAPI.onUpdateTime((currentTime, duration) => {
+      seekBar.max = duration;
+      seekBar.value = currentTime;
+      updateSeekBarBackground();
+      timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    });
 
+    seekBar.addEventListener('input', (e) => {
+      const time = parseFloat(e.target.value);
+      updateSeekBarBackground();
+      window.electronAPI.seekFromMini(time);
+    });
 
-
-
-seekBar.addEventListener('input', (e) => {
-  const time = parseFloat(e.target.value);
-  updateSeekBarBackground();
-  window.electronAPI.seekFromMini(time);
-});
-
-
-function updateSeekBarThemeColor() {
-  updateSeekBarBackground();
-}
+    function updateSeekBarThemeColor() {
+      updateSeekBarBackground();
+    }
 
     prevBtn.addEventListener('click', () => {
       console.log('Previous button clicked');
       window.electronAPI.playPrevious();
     });
+
     nextBtn.addEventListener('click', () => {
       console.log('Next button clicked');
       window.electronAPI.playNext();
     });
+
     playPauseBtn.addEventListener('click', () => {
       console.log('Play/Pause button clicked');
       window.electronAPI.togglePlay();
     });
+
     window.electronAPI.onDisableVisualizer(() => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  console.log('Visualizer disabled and cleared');
-});
-
-
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      console.log('Visualizer disabled and cleared');
+    });
   </script>
 </body>
 </html>
