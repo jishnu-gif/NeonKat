@@ -11,46 +11,45 @@
       --primary-dark: #7a5fff;
     }
     body {
-      background: #111111;
+      margin: 0;
+      padding: 0;                  
+      background: transparent;
       color: #fff;
       font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 10px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      align-items: flex-start;     
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
-       -webkit-app-region: drag;
-         background: transparent;
-        
+      -webkit-app-region: drag;
     }
 
 
     .control-btn img,
-.icon,
-#topControls img,
-#bellIcon,
-#visualizerIcon,
-#rainbowIcon,
-#miniPlayerBtn img {
-  filter: brightness(0) invert(1) !important;
-}
-    #container {
-width: 100%;
-  max-width: 400px;
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  border: 6px solid #212121;
-  height: 700px;          
-  max-height: 90vh;      
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;       
-      
-      
+    .icon,
+    #topControls img,
+    #bellIcon,
+    #visualizerIcon,
+    #rainbowIcon,
+    #miniPlayerBtn img {
+      filter: brightness(0) invert(1) !important;
     }
+      #container {
+        width: 441px;            
+        height: 743px;               
+        max-width: none;
+        max-height: none;
+        background: #111;
+        padding: 15px;
+        border-radius: 10px;
+        border: 6px solid #212121; 
+        box-sizing: border-box;      
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        margin-top: 0;             
+      }
     h1 {
       font-size: 24px;
       text-align: center;
@@ -389,13 +388,10 @@ width: 100%;
     }
     body.mini-mode #container {
       width: 260px !important;
-      max-width: 260px !important;
-      padding: 3px !important;
-      max-height: 85vh !important; 
-      
+      height: 290px !important;    
+      padding: 10px !important;    
+      box-sizing: border-box !important;
     }
-
-    
 
     body.mini-mode h1,
     body.mini-mode #playlist,
@@ -936,43 +932,38 @@ document.addEventListener('click', (e) => {
   });
 
   filePickerBtn.addEventListener('click', async () => {
-    try {
-      if ('Notification' in window && Notification.permission !== 'granted') {
-        await Notification.requestPermission();
-      }
-
-      const result = await window.electronAPI.pickFolder();
-
-      if (result) {
-        const { folderPath, audioFilePaths } = result;
-
-        if (!audioFilePaths.length) {
-          alert('No audio files found!');
-          return;
-        }
-
-        audioFiles = audioFilePaths;
-        currentIndex = 0;
-
-        const sortedIndex = await applySavedSort();
-        updateStoredPlaylist();
-        renderPlaylist();
-        playTrack(0);
-        scrollToCurrentTrack();
-      } else {
-        audioFiles = [];
-        renderPlaylist();
-        audio.src = '';
-        visualizerCanvas.style.backgroundImage = 'none';
-        visualizerCanvas.style.backgroundColor = '#111111';
-        window.electronAPI.updateTrack({ songName: 'No Track', artUrl: null, isPlaying: false });
-      }
-    } catch (err) {
-      console.error('Folder load error:', err);
-      alert('Error: ' + err.message);
+  try {
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      await Notification.requestPermission();
     }
-  });
 
+    const result = await window.electronAPI.pickFolder();
+    if (!result || result.canceled) {
+      return;  
+    }
+
+
+    const { folderPath, audioFilePaths } = result;
+
+    if (!audioFilePaths.length) {
+      alert('No audio files found in that folder, dipshit!');
+      return;
+    }
+
+    audioFiles = audioFilePaths;
+    currentIndex = 0;
+
+    const sortedIndex = await applySavedSort();
+    updateStoredPlaylist();
+    renderPlaylist();
+    playTrack(0);
+    scrollToCurrentTrack();
+
+  } catch (err) {
+    console.error('Folder load error:', err);
+    alert('Error: ' + err.message);
+  }
+});
   savePlaylistBtn.addEventListener('click', async () => {
     if (audioFiles.length === 0) {
       alert('No tracks to save!');
@@ -1133,49 +1124,46 @@ function updateSelectionVisuals() {
     return audioPaths;
   }
 
-  async function getAlbumArtUrl(filePath) {
-    const defaultImage = 'build/default-artwork.jpg';
-
-    if (typeof item !== 'string') {
+ async function getAlbumArtUrl(filePath) {
+  const defaultImage = 'build/default-artwork.jpg';
+  if (typeof filePath !== 'string' || !['.mp3', '.m4a', '.flac', '.opus'].some(ext => filePath.toLowerCase().endsWith(ext))) {
     return defaultImage;
   }
-    if (!['.mp3', '.m4a', '.flac', '.opus'].some(ext => filePath.toLowerCase().endsWith(ext))) {
-      return defaultImage;
-    }
 
-    try {
-      const buffer = await window.electronAPI.readFileBuffer(filePath);
-      const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
-      const mimeType = filePath.endsWith('.mp3') ? 'audio/mpeg' : filePath.endsWith('.m4a') ? 'audio/mp4' : 'audio/flac';
-      const blob = new Blob([arrayBuffer], { type: mimeType });
+  try {
+    const buffer = await window.electronAPI.readFileBuffer(filePath);
+    const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+    const blob = new Blob([arrayBuffer]);
 
-      return new Promise((resolve) => {
-        window.jsmediatags.read(blob, {
-          onSuccess: function(tag) {
-            const tags = tag.tags;
-            if (tags.picture) {
-              const picture = tags.picture;
-              const uint8Array = new Uint8Array(picture.data);
-              let binary = '';
-              const chunkSize = 8192;
-              for (let i = 0; i < uint8Array.length; i += chunkSize) {
-                binary += String.fromCharCode(...uint8Array.subarray(i, i + chunkSize));
-              }
-              const base64String = btoa(binary);
-              resolve(`data:${picture.format};base64,${base64String}`);
-            } else {
-              resolve(defaultImage);
+    return new Promise((resolve) => {
+      window.jsmediatags.read(blob, {
+        onSuccess: function(tag) {
+          const tags = tag.tags;
+          if (tags.picture) {
+            const picture = tags.picture;
+            const uint8Array = new Uint8Array(picture.data);
+            let binary = '';
+            const chunkSize = 8192;
+            for (let i = 0; i < uint8Array.length; i += chunkSize) {
+              binary += String.fromCharCode(...uint8Array.subarray(i, i + chunkSize));
             }
-          },
-          onError: function() {
+            const base64String = btoa(binary);
+            resolve(`data:${picture.format};base64,${base64String}`);
+          } else {
             resolve(defaultImage);
           }
-        });
+        },
+        onError: function(error) {
+          console.error('jsmediatags error:', error);
+          resolve(defaultImage);
+        }
       });
-    } catch {
-      return defaultImage;
-    }
+    });
+  } catch (err) {
+    console.error('Failed to read file for tags:', err);
+    return defaultImage;
   }
+}
 
 async function setVisualizerBackground(item) {
   if (typeof item === 'string') {

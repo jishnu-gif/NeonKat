@@ -12,7 +12,7 @@ if (process.platform === 'win32') {
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 560,
+    width: 441,
     height: 743,
     frame: false,
     transparent: true,
@@ -26,7 +26,7 @@ function createWindow() {
       backgroundThrottling: false,
      
     },
-    icon: path.join(__dirname, 'build', 'icon.png'),
+    icon: path.join(__dirname, 'build', 'kat.png'),
   });
 
   ipcMain.on('set-mini-mode', (event, isMini) => {
@@ -34,7 +34,7 @@ function createWindow() {
   if (isMini) {
     window.setBounds({ width: 260, height: 290 });
   } else {
-    window.setBounds({ width: 560, height: 733 });
+    window.setBounds({ width: 441, height: 743 });
   }
 });
 
@@ -50,7 +50,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  const iconPath = path.join(__dirname, 'build', 'icon.png');
+  const iconPath = path.join(__dirname, 'build', 'kat.png');
   const trayIcon = nativeImage.createFromPath(iconPath);
   tray = new Tray(trayIcon);
 
@@ -122,14 +122,17 @@ ipcMain.handle('read-file', async (event, filePath) => {
 let lastFolderPath = null;
 ipcMain.handle('pick-folder', async () => {
   try {
-    const result = await dialog.showOpenDialog({
+    if (mainWindow) mainWindow.setAlwaysOnTop(false);
+
+    const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openDirectory'],
       defaultPath: lastFolderPath || undefined,
     });
 
-    if (result.canceled) {
-      return null;
-    }
+
+    if (mainWindow) mainWindow.setAlwaysOnTop(true);  
+
+    if (result.canceled) return null;
 
     const folderPath = result.filePaths[0];
     lastFolderPath = folderPath;
@@ -152,7 +155,7 @@ ipcMain.on('notify', (_, { title, body }) => {
   new Notification({
     title,
     body,
-    icon: path.join(__dirname, 'build/icon.png'),
+    icon: path.join(__dirname, 'build/kat.png'),
   }).show();
 });
 
