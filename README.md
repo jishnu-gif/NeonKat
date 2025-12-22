@@ -1,17 +1,32 @@
-# Muzik Electro
-A simple electron music player
+# NeonKat
+- A simple electron music player 
 
-## 🛠️ Features
-playlist loading and saving, music visualizer, seek, volume, and other simple features you would expect from a music player
+## 🛠️ Key Features
+- Playlist loading and saving<br> 
+- Music visualizer<br> 
+- Always on top mini mode
+- Seek, volume, and other simple features you would expect from a music player <br>
+- Yt-dlp support (need to have yt-dlp installed in your path https://github.com/yt-dlp/yt-dlp/wiki/Installation)<br>
+- Radio streams support
 
-## ℹ️ Version v0.0.7a
-🟣 Added x11 Support <br>
-🟣 Added Mini Player
+## ℹ️ Version v0.1.1a
+- Added x11 Support <br>
+- Added Mini Player <br>
+- Added Radio Streams <br>
+- Added Yt-dlp Support <br>
+- Changed how neon mode works
 
 ## Previews
 
-| Custom Color | Color Selector | Rainbow And Visualizer Disable / Enable |
+| Visualizer | Color Selector | Neon Mode |
 |--------------|----------------|-----------------------------------------|
-| <img src="assets/image1.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/image2.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/output.gif" width="210" height="1" style="object-fit: cover;"> |
+| <img src="assets/visualizer.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/color-selector.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/neonmode.gif" width="210" height="1" style="object-fit: cover;"> |
+
+| Mini Mode | Radio Streams | Yt-dlp Support |
+|--------------|----------------|-----------------------------------------|
+| <img src="assets/mini-mode.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/radio-streams.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/yt-dlp-support.png" width="210" height="1" style="object-fit: cover;"> |
+
+## 🤗 Special Thanks
+- Some friends who helped with the artwork you know who you are, thanks a lot :)
 ## 🧑‍💻 Developer 
-PaleCache
+- PaleCache
