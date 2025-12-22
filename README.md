@@ -1,6 +1,8 @@
-# 😼 NeonKat
-- A simple electron music player 
+<p align="center">
+  <img src="./build/kat.png" alt="NeonKat Banner" width="10%"> <br>NeonKat: A simple electron music player for linux and windows systems
+</p>
 
+<br><br>
 ## 🛠️ Key Features
 - Playlist loading and saving<br> 
 - Music visualizer<br> 
