@@ -1,4 +1,4 @@
-# NeonKat
+# 😼 NeonKat
 - A simple electron music player 
 
 ## 🛠️ Key Features
@@ -27,6 +27,7 @@
 | <img src="assets/mini-mode.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/radio-streams.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/yt-dlp-support.png" width="210" height="1" style="object-fit: cover;"> |
 
 ## 🤗 Special Thanks
-- Some friends who helped with the artwork you know who you are, thanks a lot :)
+- Some friends who helped with the artwork you know who you are, thanks a lot :)<br>
+- yt-dlp team for giving us such an amazing project, you're awesome
 ## 🧑‍💻 Developer 
 - PaleCache
