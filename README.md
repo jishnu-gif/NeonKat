@@ -21,11 +21,11 @@
 
 | Visualizer | Color Selector | Neon Mode |
 |--------------|----------------|-----------------------------------------|
-| <img src="assets/visualizer.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/color-selector.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/neonmode.gif" width="210" height="1" style="object-fit: cover;"> |
+| <img src="./assets/visualizer.png" width="200" style="object-fit: cover;"> | <img src="./assets/color-selector.png" width="200" style="object-fit: cover;"> | <img src="./assets/neonmode.gif" width="210"  style="object-fit: cover;"> |
 
 | Mini Mode | Radio Streams | Yt-dlp Support |
 |--------------|----------------|-----------------------------------------|
-| <img src="assets/mini-mode.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/radio-streams.png" width="200" height="1" style="object-fit: cover;"> | <img src="assets/yt-dlp-support.png" width="210" height="1" style="object-fit: cover;"> |
+| <img src="./assets/mini-mode.png" width="200"  style="object-fit: cover;"> | <img src="./assets/radio-streams.png" width="200"  style="object-fit: cover;"> | <img src="./assets/yt-dlp-support.png" width="210" style="object-fit: cover;"> |
 
 ## 🤗 Special Thanks
 - Some friends who helped with the artwork you know who you are, thanks a lot :)<br>
