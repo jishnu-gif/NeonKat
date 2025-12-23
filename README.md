@@ -21,6 +21,9 @@
 - Added Yt-dlp Support <br>
 - Changed how neon mode works
 
+## 💰 Wanna Help Support Development 
+send me some monero(xmr): 455KNy55xW9cK4sGknaHwEHD7s3RYcS1nb3bdACZVNpJDey47BegHWpjUghbPu64xxMi2fZwqG95wfextdwDcXbbALSDFVw
+
 ## Previews
 
 | Visualizer | Color Selector | Neon Mode |
