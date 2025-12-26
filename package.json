@@ -1,6 +1,6 @@
 {
   "name": "neonkat",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple yet not music player with visualizer and miniplayer",
   "author": "PaleCache",
   "homepage": "https://github.com/cx/muzik-electro",
@@ -23,7 +23,8 @@
       "index.html",
       "renderer/**/*",
       "build/**/*",
-      "jsmediatags.min.js"
+      "jsmediatags.min.js",
+      "hls.js@latest"
     ],
     "asar": true,
     "win": {
