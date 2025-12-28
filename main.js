@@ -34,67 +34,160 @@ function createWindow() {
 
 
 
-  ipcMain.handle('download-youtube', async (event, { url, downloadFolder }) => {
+ ipcMain.handle('download-youtube', async (event, { url, downloadFolder, skipVideo = false }) => {
   if (!downloadFolder || !fsSync.existsSync(downloadFolder)) {
-    return { success: false, message: 'Pick a valid fucking folder' };
+    return { success: false, message: 'Pick a valid folder' };
   }
 
-  const args = [
-    url,
-    '--extract-audio',
-    '--audio-format', 'mp3',
-    '--audio-quality', '0',
-    '--embed-thumbnail',
-    '--convert-thumbnails', 'jpg',
-    '--add-metadata',
-    '--output', path.join(downloadFolder, '%(title)s.%(ext)s'),
-    '--no-playlist',          
-    '--newline',
-  ];
+  const tempVideoPath = path.join(downloadFolder, 'NEONKAT_TEMP.%(ext)s');
+  const sanitizedTitle = (title) => title.replace(/[/\\?%*:|"<>]/g, '');
 
-  return new Promise((resolve) => {
-    const ytProcess = spawn('yt-dlp', args, { cwd: downloadFolder });
-
-    let output = '';
-    let error = '';
-
-    ytProcess.stdout.on('data', (data) => {
-      output += data.toString();
+  try {
+    const info = await new Promise((resolve, reject) => {
+      const proc = spawn('yt-dlp', ['-j', url]);
+      let output = '';
+      proc.stdout.on('data', data => output += data.toString());
+      proc.on('close', code => code === 0 ? resolve(JSON.parse(output)) : reject(new Error('Failed to get info')));
+      proc.on('error', reject);
     });
 
-    ytProcess.stderr.on('data', (data) => {
-      error += data.toString();
+    const hasVideo = info.formats.some(f => f.vcodec !== 'none');
+    let videoPath = null;
+    let mp3Path = null;
+    if (!hasVideo) {
+      skipVideo = true;
+    }
+    const thumbTemp = path.join(downloadFolder, 'NEONKAT_THUMB.%(ext)s');
+    const thumbArgs = [
+      url,
+      '--write-thumbnail',
+      '--convert-thumbnails', 'jpg',
+      '--skip-download',
+      '--no-playlist',
+      '-o', thumbTemp
+    ];
+
+    await new Promise((resolve, reject) => {
+      const proc = spawn('yt-dlp', thumbArgs);
+      proc.on('close', code => code === 0 ? resolve() : reject(new Error('Thumbnail download failed')));
+      proc.on('error', reject);
     });
 
-    ytProcess.on('close', (code) => {
-      if (code === 0) {
-        const destMatch = output.match(/Destination: (.+\.(mp3|m4a|opus|webm))/i);
-        let filePath = destMatch ? path.join(downloadFolder, destMatch[1].trim()) : null;
+    const thumbFiles = await fs.readdir(downloadFolder);
+    const thumbFile = thumbFiles.find(f => f.startsWith('NEONKAT_THUMB.'));
+    if (!thumbFile) throw new Error('Thumbnail not found');
+    const fullThumbPath = path.join(downloadFolder, thumbFile);
 
-        if (!filePath) {
-          filePath = path.join(downloadFolder, 'downloaded_track.mp3');
-        }
+    if (skipVideo) {
+      const audioArgs = [
+        url,
+        '--extract-audio',
+        '--audio-format', 'mp3',
+        '--audio-quality', '0',
+        '--embed-thumbnail',
+        '--add-metadata',
+        '--no-playlist',
+        '-o', path.join(downloadFolder, '%(title)s.%(ext)s')
+      ];
 
-        resolve({ success: true, filePath });
-      } else {
-        let msg = `yt-dlp failed with code ${code}`;
-        if (error.includes('command not found') || error.includes('not recognized')) {
-          msg += '\n\nyt-dlp not found in PATH, Install it properly.';
-        } else {
-          msg += `\nError: ${error.substring(0, 600)}`;
-        }
-        resolve({ success: false, message: msg });
-      }
+      await new Promise((resolve, reject) => {
+        const proc = spawn('yt-dlp', audioArgs);
+        proc.on('close', code => code === 0 ? resolve() : reject(new Error('Audio-only download failed')));
+        proc.on('error', reject);
+      });
+
+      const files = await fs.readdir(downloadFolder);
+      mp3Path = path.join(downloadFolder, files.find(f => f.toLowerCase().endsWith('.mp3')));
+      await fs.unlink(fullThumbPath);
+
+      return { success: true, mp3Path, videoPath: null };
+    }
+
+    const downloadArgs = [
+      url,
+      '-f', 'bestvideo[height<=480]+bestaudio/best[height<=480]',
+      '--merge-output-format', 'mp4',
+      '--no-playlist',
+      '-o', tempVideoPath
+    ];
+
+    await new Promise((resolve, reject) => {
+      const proc = spawn('yt-dlp', downloadArgs);
+      proc.on('close', code => code === 0 ? resolve() : reject(new Error('Download failed')));
+      proc.on('error', reject);
     });
 
-    ytProcess.on('error', (err) => {
-      if (err.code === 'ENOENT') {
-        resolve({ success: false, message: 'yt-dlp not found. Install it and add to PATH' });
-      } else {
-        resolve({ success: false, message: `Spawn error: ${err.message}` });
-      }
+    const files = await fs.readdir(downloadFolder);
+    const tempFile = files.find(f => f.startsWith('NEONKAT_TEMP.'));
+    if (!tempFile) throw new Error('Temp file not found');
+    const fullTempPath = path.join(downloadFolder, tempFile);
+
+    const duration = await new Promise((resolve, reject) => {
+      const ffprobe = spawn('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', fullTempPath]);
+      let out = '';
+      ffprobe.stdout.on('data', d => out += d);
+      ffprobe.on('close', code => code === 0 ? resolve(parseFloat(out)) : reject());
+      ffprobe.on('error', reject);
     });
-  });
+
+    const startTime = Math.max(0, (duration / 2) - 7.5);
+    videoPath = path.join(downloadFolder, sanitizedTitle(info.title) + '.mp4');
+
+    const previewArgs = [
+      '-nostdin', '-ss', startTime.toString(), '-i', fullTempPath,
+      '-t', '30', '-vf', 'fps=30,scale=-1:-1:flags=lanczos', '-an',
+      '-movflags', '+faststart', '-pix_fmt', 'yuv420p', '-preset', 'veryfast', '-crf', '23', '-y',
+      videoPath
+    ];
+
+    await new Promise((resolve, reject) => {
+      const ffmpeg = spawn('ffmpeg', previewArgs);
+      ffmpeg.on('close', code => code === 0 ? resolve() : reject(new Error('Preview failed')));
+      ffmpeg.on('error', reject);
+    });
+
+    mp3Path = path.join(downloadFolder, sanitizedTitle(info.title) + '.mp3');
+
+    const audioArgs = [
+      '-i', fullTempPath,
+      '-i', fullThumbPath,
+      '-map', '0:a',
+      '-map', '1:v',
+      '-c:a', 'libmp3lame',
+      '-q:a', '0',
+      '-metadata', `title=${info.title}`,
+      '-metadata', `artist=${info.uploader || 'Unknown'}`,
+      '-metadata', `album=${info.album || info.title}`,
+      '-disposition:v', 'attached_pic',
+      '-y',
+      mp3Path
+    ];
+
+    await new Promise((resolve, reject) => {
+      const ffmpeg = spawn('ffmpeg', audioArgs);
+      ffmpeg.on('close', code => code === 0 ? resolve() : reject(new Error('MP3 extraction/embed failed')));
+      ffmpeg.on('error', reject);
+    });
+
+    await fs.unlink(fullTempPath);
+    await fs.unlink(fullThumbPath);
+
+    return { success: true, mp3Path, videoPath };
+
+  } catch (err) {
+    console.error('Download failed:', err);
+    return { success: false, message: `Error: ${err.message}` };
+  }
+});
+
+
+ipcMain.handle('file-exists', async (event, filePath) => {
+  try {
+    await fs.access(filePath, fs.constants.F_OK);
+    return true;
+  } catch (error) {
+    return false;
+  }
 });
 
 ipcMain.on('open-external', (event, url) => {

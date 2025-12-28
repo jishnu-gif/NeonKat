@@ -25,6 +25,7 @@ dragWindow: (deltaX, deltaY) => ipcRenderer.send('drag-window', deltaX, deltaY),
   playNext: () => ipcRenderer.send('play-next'),
   togglePlay: () => ipcRenderer.send('toggle-play'),
   seekFromMini: (time) => ipcRenderer.send('seek-from-mini', time),
+  fileExists: (path) => ipcRenderer.invoke('file-exists', path),
 
   onUpdateTrack: (callback) => {
     ipcRenderer.on('update-track', (event, data) => callback(data));
