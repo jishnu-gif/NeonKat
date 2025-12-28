@@ -25,7 +25,7 @@
 |--------------|----------------|-----------------------------------------|
 | <img src="./assets/mini-mode.png" width="200"  style="object-fit: cover;"> | <img src="./assets/radio-streams.png" width="200"  style="object-fit: cover;"> | <img src="./assets/yt-dlp-support.png" width="210" style="object-fit: cover;"> |
 
-| Short Music Videos (Canvas Mode) |
+| Canvas Mode |
 |--------------|
 | <img src="./assets/gifPreview.gif" width="200"  style="object-fit: cover;"> | <img src="./assets/radio-streams.png" width="200"  style="object-fit: cover;"> | <img src="./assets/yt-dlp-support.png" width="210" style="object-fit: cover;"> |
 
